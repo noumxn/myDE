@@ -1,21 +1,21 @@
-import configRoutes from './routes/index.js';
+import configRoutes from './api/index.js';
+import express from 'express';
 import dotenv from 'dotenv';
 import session from 'express-session';
 const app = express();
 dotenv.config();
 
+configRoutes(app);
 
 const rewriteUnsupportedBrowserMethods = (req, _, next) => {
     if (req.body && req.body._method) {
         req.method = req.body._method;
         delete req.body._method;
     }
-
     next();
 };
 
 app.use(express.json());
-//cookie set up
 app.use(
     session({
         name: 'pyDE',
@@ -66,12 +66,8 @@ app.use('/interpreter', (req, res, next) => {
     }
 });
 
-
-
 app.use(express.urlencoded({extended: true}));
 app.use(rewriteUnsupportedBrowserMethods);
-
-configRoutes(app);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log("We've now got a server!");
