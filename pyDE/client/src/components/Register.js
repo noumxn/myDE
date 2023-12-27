@@ -15,13 +15,10 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Replace with your API endpoint
-            const res = await axios.post('http://localhost:5000/register', userData);
+            const res = await axios.post('http://localhost:4000/register', userData);
             console.log(res.data);
-            // Handle post-registration logic (e.g., redirect to login)
         } catch (err) {
             console.error(err);
-            // Handle errors (e.g., display error message)
         }
     };
 

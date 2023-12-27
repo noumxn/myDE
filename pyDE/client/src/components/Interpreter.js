@@ -13,7 +13,7 @@ function Interpreter() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/register', userCode);
+            const res = await axios.post('http://localhost:4000/register', userCode);
             console.log(res.data);
         } catch (err) {
             console.error(err);
