@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 
-export const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
+export const authorizeToken = (req, res, next) => {
+    console.log("Getting to middleware");
+    const token = req.headers.authorization;
+    const tokenPart = token && token.split(' ')[1];
+    if (!tokenPart) {
         return res.status(403).json({ error: 'No token provided' });
     }
 

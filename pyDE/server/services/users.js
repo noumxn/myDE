@@ -29,7 +29,7 @@ export const getUserByEmail = async (email) => {
 }
 
 export const authenticateUser = async (email, password) => {
-    const user = await this.getUserByEmail(email);
+    const user = await getUserByEmail(email);
     const authentic = await bcrypt.compare(password, user.password);
     if (!authentic) { 
         throw {status: 403, message: 'Email and Password do not match'};

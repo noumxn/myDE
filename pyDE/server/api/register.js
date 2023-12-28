@@ -13,7 +13,6 @@ router
 
         try {
             const newUser = await createUser(username, email, password);
-            console.log(newUser);
             return res.status(200).json(newUser);
         } catch (err) {
             return res.status(err.status).json({"error": err.message});

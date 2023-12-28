@@ -14,8 +14,8 @@ function Interpreter() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('http://localhost:4000/register', userCode, {
-                headers: { 'Authorization': token }
+            const res = await axios.get('http://localhost:4000/interpreter', userCode, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             console.log(res.data);
         } catch (err) {

@@ -13,8 +13,7 @@ router
 
         try {
             const user = await authenticateUser(email, password);
-            const token = await generateJWToken(user);
-            console.log(user);
+            const token = generateJWToken(user);
             return res.status(200).json({token});
         } catch (err) {
             return res.status(err.status).json({"error": err.message});
