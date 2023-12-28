@@ -5,7 +5,8 @@ import { authorizeToken } from "../middleware/authMiddleware.js";
 const router = Router();
 
 router
-    .get("/", authorizeToken, async (req, res) => {
+    .post("/", authorizeToken, async (req, res) => {
+        console.log("I'm getting to the route /interpreter");
         const email = req.body.email;
 
         try {
