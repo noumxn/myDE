@@ -1,7 +1,5 @@
-// There are authorization routes
-
 import { Router } from "express";
-import {createUser, getUserByEmail, authenticateUser} from "../services/users.js";
+import {createUser} from "../services/users.js";
 
 const router = Router();
 
