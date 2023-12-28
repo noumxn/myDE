@@ -1,7 +1,5 @@
-// There are authorization routes
-
 import { Router } from "express";
-import {createUser, getUserByEmail, authenticateUser} from "../services/users.js";
+import {createUser} from "../services/users.js";
 
 const router = Router();
 
@@ -15,7 +13,6 @@ router
 
         try {
             const newUser = await createUser(username, email, password);
-            console.log(newUser);
             return res.status(200).json(newUser);
         } catch (err) {
             return res.status(err.status).json({"error": err.message});

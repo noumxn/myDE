@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Interpreter() {
-    const [userCode, setCode] = useState({
-        code: '',
-    });
+    const [userCode, setCode] = useState({ code: '' });
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        // Currently just checking if token exists. Should validate the token on the backend later
+        if (!token) {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
-        setCode({...userCode, [e.target.name]: e.target.value });
+        setCode({ ...userCode, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         try {
-            const res = await axios.post('http://localhost:4000/register', userCode);
+            const res = await axios.post('http://localhost:4000/interpreter', userCode, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             console.log(res.data);
         } catch (err) {
             console.error(err);
@@ -38,3 +49,4 @@ function Interpreter() {
 }
 
 export default Interpreter;
+

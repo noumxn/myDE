@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
@@ -14,13 +16,11 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Replace with your API endpoint
             const res = await axios.post('http://localhost:4000/login', loginData);
-            console.log(res.data);
-            // Handle login logic (e.g., storing tokens, redirecting)
+            localStorage.setItem('token', res.data.token);
+            navigate("/interpreter");
         } catch (err) {
             console.error(err);
-            // Handle errors (e.g., display error message)
         }
     };
 
