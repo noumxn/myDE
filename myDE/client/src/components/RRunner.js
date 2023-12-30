@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Interpreter() {
+function RRunner() {
     const [userCode, setCode] = useState({ code: '' });
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        // Currently just checking if token exists. Should validate the token on the backend later
         if (!token) {
             navigate('/login');
         }
@@ -22,7 +21,7 @@ function Interpreter() {
         e.preventDefault();
         const token = localStorage.getItem('token');
         try {
-            const res = await axios.post('http://localhost:4000/interpreter', userCode, {
+            const res = await axios.post('http://localhost:4000/lang/r', userCode, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             console.log(res.data);
@@ -33,20 +32,19 @@ function Interpreter() {
 
     return (
         <div>
-            <h2>Python Interpreter</h2>
+            <h2>R Compiler</h2>
             <form onSubmit={handleSubmit}>
-                <input
+                <textarea
                     type="text"
                     name="code"
-                    placeholder="Code..."
+                    placeholder="Write your javascript code here..."
                     value={userCode.code}
                     onChange={handleChange}
-                />
+                ></textarea>
                 <button type="submit">Run</button>
             </form>
         </div>
     );
 }
 
-export default Interpreter;
-
+export default RRunner;

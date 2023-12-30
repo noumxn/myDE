@@ -5,9 +5,11 @@ import { authorizeToken } from "../middleware/authMiddleware.js";
 const router = Router();
 
 router
-    .post("/", authorizeToken, async (req, res) => {
-        console.log("I'm getting to the route /interpreter");
+    .post("/:language", authorizeToken, async (req, res) => {
+        const code = req.body.code;
         const email = req.body.email;
+        const language = req.params.language;
+        console.log(`'${code}' in ${language} language`);
 
         try {
             const userDetails = await getUserByEmail(email);

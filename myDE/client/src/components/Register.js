@@ -9,6 +9,7 @@ function Register() {
         email: '',
         password: ''
     });
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
         setUserData({...userData, [e.target.name]: e.target.value });
@@ -20,6 +21,11 @@ function Register() {
             await axios.post('http://localhost:4000/register', userData);
             navigate("/login");
         } catch (err) {
+            if (err.response) {
+                setErrorMessage(err.response.data.error);
+            } else {
+                setErrorMessage('An error occurred. Please try again.');
+            }
             console.error(err);
         }
     };
@@ -27,6 +33,7 @@ function Register() {
     return (
         <div>
             <h2>Register</h2>
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -59,4 +66,3 @@ function Register() {
 }
 
 export default Register;
-

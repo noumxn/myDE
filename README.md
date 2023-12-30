@@ -1,2 +1,2 @@
-# pyDE
-Online Python Development Environment
+# myDE
+An Online Development Environment
