@@ -1,15 +1,27 @@
 import { Router } from "express";
 import {authenticateUser} from "../services/users.js";
 import { generateJWToken } from "../utils/helpers.js";
+import { apiLimiter } from "../middleware/rateLimiting.js";
+import { 
+    parameterCheck, 
+    strValidCheck, 
+    emailValidCheck, 
+} from '../utils/validate.js';
 
 const router = Router();
 
 
 router
-    .route("/")
-    .post( async (req, res) => {
+    .post("/", apiLimiter, async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
+        try {
+            parameterCheck(email, password);
+            strValidCheck(email, password);
+            emailValidCheck(email);
+        } catch (err) {
+            return res.status(err.status).json({"error": err.message});
+        }
 
         try {
             const user = await authenticateUser(email, password);
