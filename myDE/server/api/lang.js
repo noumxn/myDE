@@ -1,23 +1,26 @@
 import { Router } from "express";
-import {getUserByEmail} from "../services/users.js";
 import { authorizeToken } from "../middleware/authMiddleware.js";
 import { apiLimiter } from "../middleware/rateLimiting.js";
+import { runCodeInDocker } from "../utils/helpers.js";
 
 const router = Router();
 
-router
-    .post("/:language", apiLimiter, authorizeToken, async (req, res) => {
-        const code = req.body.code;
-        const email = req.body.email;
-        const language = req.params.language;
-        console.log(`'${code}' in ${language} language`);
+const langOptions = new Set(["python", "cpp", "csharp", "r", "node", "rust", "java"]);
 
-        try {
-            const userDetails = await getUserByEmail(email);
-            return res.status(200).json(userDetails);
-        } catch (err) {
-            return res.status(err.status).json({"error": err.message});
-        }
-    })
+router.post("/:language", apiLimiter, authorizeToken, async (req, res) => {
+    const { code } = req.body;
+    const { language } = req.params;
+
+    if (!langOptions.has(language)) {
+        return res.status(400).json({ "error": `'${language}' is not available.` });
+    }
+
+    try {
+        const output = await runCodeInDocker(language, code);
+        res.status(200).json({ result: output });
+    } catch (err) {
+        res.status(500).json({ "error": err.toString() });
+    }
+});
 
 export default router;
