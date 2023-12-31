@@ -29,6 +29,7 @@ function App() {
           <Route path="/lang/node" element={<NodeRunner />} />
           <Route path="/lang/rust" element={<RustRunner />} />
           <Route path="/lang/r" element={<RRunner />} />
+          <Route path="*" element={<Navigate replace to={"/login"} />} />
         </Routes>
       </div>
     </Router>

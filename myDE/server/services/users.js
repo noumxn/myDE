@@ -44,7 +44,6 @@ export const getUserByEmail = async (email) => {
     parameterCheck(email);
     strValidCheck(email);
     emailValidCheck(email);
-    email = email.trim().toLowerCase();
 
     const userCollection = await users();
     const user = await userCollection.findOne({email: email});

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
@@ -10,6 +10,13 @@ function Register() {
         password: ''
     });
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/lang/python');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setUserData({...userData, [e.target.name]: e.target.value });
@@ -61,6 +68,7 @@ function Register() {
                 <br/>
                 <button type="submit">Register</button>
             </form>
+            <p>Already have an account? <Link to="/login">Login here</Link></p>
         </div>
     );
 }
