@@ -16,6 +16,7 @@ router.post("/:language", apiLimiter, authorizeToken, async (req, res) => {
     }
 
     try {
+        console.log('Recieving reqs');
         const output = await runCodeInDocker(language, code);
         res.status(200).json({ result: output });
     } catch (err) {

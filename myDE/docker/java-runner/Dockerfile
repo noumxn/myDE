@@ -1,9 +1,5 @@
-FROM openjdk:11-jre-slim
-
+FROM openjdk:11-jdk-slim
 WORKDIR /usr/src/app
-
-COPY run_java_code.java .
-
-RUN javac run_java_code.java
-
-CMD ["java", "run_java_code"]
+COPY Main.java .
+RUN javac Main.java
+CMD ["java", "Main"]
