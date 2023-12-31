@@ -20,6 +20,9 @@ export const runCodeInDocker = async (language, code) => {
             'node': 'js',
             'java': 'java',
             'cpp': 'cpp',
+            'csharp': 'cs',
+            'rust': 'rs',
+            'r': 'r',
         };
 
         const fileExtension = extensionMap[language];
