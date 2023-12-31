@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 function JavaRunner() {
     const [userCode, setCode] = useState({ code: '' });
+    const [output, setOutput] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,13 +22,15 @@ function JavaRunner() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+        setOutput(''); 
+        setError('');
         try {
             const res = await axios.post('http://localhost:4000/lang/java', userCode, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            console.log(res.data);
+            setOutput(res.data.result); 
         } catch (err) {
-            console.error(err);
+            setError(err.response?.data?.error || 'An error occurred');
         }
     };
 
@@ -43,6 +47,8 @@ function JavaRunner() {
                 ></textarea>
                 <button type="submit">Run</button>
             </form>
+            {output && <div><strong>Output:</strong> <pre>{output}</pre></div>}
+            {error && <div><strong>Error:</strong> <pre>{error}</pre></div>}
         </div>
     );
 }

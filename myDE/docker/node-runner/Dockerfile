@@ -1,7 +1,4 @@
-FROM node:18-alpine
-
+FROM node:14
 WORKDIR /usr/src/app
-
-COPY run_node_code.js .
-
-CMD ["node", "run_node_code.js"]
+COPY main.js .
+CMD ["node", "main.js"]

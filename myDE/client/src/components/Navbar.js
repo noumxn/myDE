@@ -21,8 +21,6 @@ function Navbar() {
                         <option value="node">Node</option>
                         <option value="java">Java</option>
                         <option value="cpp">Cpp</option>
-                        <option value="csharp">Csharp</option>
-                        <option value="r">R</option>
                         <option value="rust">Rust</option>
                     </select>
                     <button onClick={handleLogout}>Logout</button>

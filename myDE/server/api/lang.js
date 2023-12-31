@@ -5,7 +5,7 @@ import { runCodeInDocker } from "../utils/helpers.js";
 
 const router = Router();
 
-const langOptions = new Set(["python", "cpp", "csharp", "r", "node", "rust", "java"]);
+const langOptions = new Set(["python", "cpp", "node", "rust", "java"]);
 
 router.post("/:language", apiLimiter, authorizeToken, async (req, res) => {
     const { code } = req.body;
