@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Editor from '@monaco-editor/react';
 
 function JavaRunner() {
-    const [userCode, setCode] = useState({ code: '' });
+    const [userCode, setCode] = useState('// Write your Java code here...\n');
     const [output, setOutput] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -15,20 +16,20 @@ function JavaRunner() {
         }
     }, [navigate]);
 
-    const handleChange = (e) => {
-        setCode({ ...userCode, [e.target.name]: e.target.value });
+    const handleEditorChange = (value, event) => {
+        setCode(value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        setOutput(''); 
+        setOutput('');
         setError('');
         try {
-            const res = await axios.post('http://localhost:4000/lang/java', userCode, {
+            const res = await axios.post('http://localhost:4000/lang/java', { code: userCode }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            setOutput(res.data.result); 
+            setOutput(res.data.result);
         } catch (err) {
             setError(err.response?.data?.error || 'An error occurred');
         }
@@ -38,13 +39,13 @@ function JavaRunner() {
         <div>
             <h2>Java Compiler</h2>
             <form onSubmit={handleSubmit}>
-                <textarea
-                    type="text"
-                    name="code"
-                    placeholder="Write your Java code here..."
-                    value={userCode.code}
-                    onChange={handleChange}
-                ></textarea>
+                <Editor
+                    height="65vh"
+                    defaultLanguage="java"
+                    theme='vs-dark'
+                    defaultValue={userCode}
+                    onChange={handleEditorChange}
+                />
                 <button type="submit">Run</button>
             </form>
             {output && <div><strong>Output:</strong> <pre>{output}</pre></div>}

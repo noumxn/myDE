@@ -1,0 +1,20 @@
+body {
+    background-color: #ffffff;
+}
+
+h2 {
+    color: #000000;
+}
+
+.output-container {
+    color: #ffffff;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #000000;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+}
