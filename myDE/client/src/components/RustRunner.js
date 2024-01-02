@@ -48,16 +48,15 @@ function RustRunner() {
                 />
                 <button type="submit">Run</button>
             </form>
-            {output && (
-                <div className="output-container">
-                    <pre>{output}</pre>
-                </div>
-            )}
-            {error && (
-                <div className="output-container">
-                    <pre>{error}</pre>
-                </div>
-            )}
+            <div className="output-container">
+                OUTPUT:
+                {output && (
+                        <pre>{output}</pre>
+                )}
+                {error && (
+                        <pre>{error}</pre>
+                )}
+            </div>
         </div>
     );
 }

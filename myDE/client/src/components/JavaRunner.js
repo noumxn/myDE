@@ -48,8 +48,15 @@ function JavaRunner() {
                 />
                 <button type="submit">Run</button>
             </form>
-            {output && <div><strong>Output:</strong> <pre>{output}</pre></div>}
-            {error && <div><strong>Error:</strong> <pre>{error}</pre></div>}
+            <div className="output-container">
+                OUTPUT:
+                {output && (
+                        <pre>{output}</pre>
+                )}
+                {error && (
+                        <pre>{error}</pre>
+                )}
+            </div>
         </div>
     );
 }
