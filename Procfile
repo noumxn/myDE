@@ -1,1 +1,1 @@
-web: cd myDE/server && npm start
+web: node myDE/server/app.js
