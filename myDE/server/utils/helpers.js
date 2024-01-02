@@ -13,16 +13,15 @@ export const generateJWToken = (user) => {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
 };
 
-export const runCodeInDocker = async (language, code) => {
+
+export const runCodeInDocker = async (language, code, cpuLimit = '1.0', memoryLimit = '512m') => {
     return new Promise((resolve, reject) => {
         const extensionMap = {
             'python': 'py',
             'node': 'js',
             'java': 'java',
             'cpp': 'cpp',
-            'csharp': 'cs',
             'rust': 'rs',
-            'r': 'r',
         };
 
         const fileExtension = extensionMap[language];
@@ -33,7 +32,7 @@ export const runCodeInDocker = async (language, code) => {
         const tempFileName = `/tmp/code-${uuidv4()}.${fileExtension}`;
         writeFileSync(tempFileName, code);
 
-        exec(`docker run --rm -v ${tempFileName}:/usr/src/app/code.${fileExtension} ${language}-runner`,
+                exec(`docker run --rm --cpus="${cpuLimit}" --memory="${memoryLimit}" -v ${tempFileName}:/usr/src/app/code.${fileExtension} noumxn/${language}-runner`,
             (error, stdout, stderr) => {
                 unlinkSync(tempFileName);
 
@@ -48,4 +47,5 @@ export const runCodeInDocker = async (language, code) => {
         );
     });
 }
+
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 
+
 function RustRunner() {
     const [userCode, setCode] = useState('// Write your Rust code here...\n');
     const [output, setOutput] = useState('');
@@ -26,7 +27,8 @@ function RustRunner() {
         setOutput(''); 
         setError('');
         try {
-            const res = await axios.post('http://localhost:4000/lang/rust', { code: userCode }, {
+            const baseUrl = process.env.REACT_APP_API_URL || '';
+            const res = await axios.post(`${baseUrl}/lang/rust`, { code: userCode }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setOutput(res.data.result); 

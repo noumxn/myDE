@@ -24,7 +24,8 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:4000/login', loginData);
+            const baseUrl = process.env.REACT_APP_API_URL || '';
+            const res = await axios.post(`${baseUrl}/login`, loginData);
             localStorage.setItem('token', res.data.token);
             navigate("/lang");
         } catch (err) {

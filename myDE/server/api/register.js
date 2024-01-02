@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {createUser} from "../services/users.js";
 import { apiLimiter } from "../middleware/rateLimiting.js";
+import xss from "xss";
 import { 
     parameterCheck, 
     strValidCheck, 
@@ -16,9 +17,9 @@ const router = Router();
 
 router
     .post("/", apiLimiter, async (req, res) => {
-        const username = req.body.username;
-        const email = req.body.email;
-        const password = req.body.password;
+        const username = xss(req.body.username);
+        const email = xss(req.body.email);
+        const password = xss(req.body.password);
         try {
             parameterCheck(username, email, password);
             strValidCheck(username, email, password);
