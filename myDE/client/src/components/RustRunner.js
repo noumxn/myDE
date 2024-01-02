@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Editor from '@monaco-editor/react';
 
 function RustRunner() {
-    const [userCode, setCode] = useState({ code: '' });
+    const [userCode, setCode] = useState('// Write your Rust code here...\n');
     const [output, setOutput] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -15,8 +16,8 @@ function RustRunner() {
         }
     }, [navigate]);
 
-    const handleChange = (e) => {
-        setCode({ ...userCode, [e.target.name]: e.target.value });
+    const handleEditorChange = (value, event) => {
+        setCode(value);
     };
 
     const handleSubmit = async (e) => {
@@ -25,7 +26,7 @@ function RustRunner() {
         setOutput(''); 
         setError('');
         try {
-            const res = await axios.post('http://localhost:4000/lang/rust', userCode, {
+            const res = await axios.post('http://localhost:4000/lang/rust', { code: userCode }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setOutput(res.data.result); 
@@ -38,17 +39,24 @@ function RustRunner() {
         <div>
             <h2>Rust Compiler</h2>
             <form onSubmit={handleSubmit}>
-                <textarea
-                    type="text"
-                    name="code"
-                    placeholder="Write your javascript code here..."
-                    value={userCode.code}
-                    onChange={handleChange}
-                ></textarea>
+                <Editor
+                    height="65vh"
+                    defaultLanguage="rust"
+                    theme='vs-dark'
+                    defaultValue={userCode}
+                    onChange={handleEditorChange}
+                />
                 <button type="submit">Run</button>
             </form>
-            {output && <div><strong>Output:</strong> <pre>{output}</pre></div>}
-            {error && <div><strong>Error:</strong> <pre>{error}</pre></div>}
+            <div className="output-container">
+                OUTPUT:
+                {output && (
+                        <pre>{output}</pre>
+                )}
+                {error && (
+                        <pre>{error}</pre>
+                )}
+            </div>
         </div>
     );
 }

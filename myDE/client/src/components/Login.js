@@ -38,28 +38,30 @@ function Login() {
 
     return (
         <div>
+            <div className='form-container'>
             <h2>Login</h2>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                 <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={loginData.email}
-                    onChange={handleChange}
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={loginData.email}
+                onChange={handleChange}
                 />
                 <br/>
                 <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={loginData.password}
-                    onChange={handleChange}
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={loginData.password}
+                onChange={handleChange}
                 />
                 <br/>
-                <button type="submit">Login</button>
-            </form>
+                <button className='form-button' type="submit">Login</button>
+                </form>
             <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            </div>
         </div>
     );
 }

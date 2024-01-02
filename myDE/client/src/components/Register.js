@@ -39,36 +39,38 @@ function Register() {
 
     return (
         <div>
+            <div className='form-container'>
             <h2>Register</h2>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                 <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={userData.username}
-                    onChange={handleChange}
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleChange}
                 />
                 <br/>
                 <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={userData.email}
-                    onChange={handleChange}
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={handleChange}
                 />
                 <br/>
                 <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={userData.password}
-                    onChange={handleChange}
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={userData.password}
+                onChange={handleChange}
                 />
                 <br/>
-                <button type="submit">Register</button>
-            </form>
+                <button className='form-button' type="submit">Register</button>
+                </form>
             <p>Already have an account? <Link to="/login">Login here</Link></p>
+            </div>
         </div>
     );
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Editor from '@monaco-editor/react';
 
 function CppRunner() {
-    const [userCode, setCode] = useState({ code: '' });
+    const [userCode, setCode] = useState('// Write your C++ code here...\n');
     const [output, setOutput] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -15,8 +16,8 @@ function CppRunner() {
         }
     }, [navigate]);
 
-    const handleChange = (e) => {
-        setCode({ ...userCode, [e.target.name]: e.target.value });
+    const handleEditorChange = (value, event) => {
+        setCode(value);
     };
 
     const handleSubmit = async (e) => {
@@ -25,10 +26,9 @@ function CppRunner() {
         setOutput(''); 
         setError('');
         try {
-            const res = await axios.post('http://localhost:4000/lang/cpp', userCode, {
+            const res = await axios.post('http://localhost:4000/lang/cpp', { code: userCode }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            console.log(res.data);
             setOutput(res.data.result); 
         } catch (err) {
             setError(err.response?.data?.error || 'An error occurred');
@@ -39,17 +39,24 @@ function CppRunner() {
         <div>
             <h2>C++ Compiler</h2>
             <form onSubmit={handleSubmit}>
-                <textarea
-                    type="text"
-                    name="code"
-                    placeholder="Write your C++ code here..."
-                    value={userCode.code}
-                    onChange={handleChange}
-                ></textarea>
+                <Editor
+                    height="65vh"
+                    defaultLanguage="cpp"
+                    theme='vs-dark'
+                    defaultValue={userCode}
+                    onChange={handleEditorChange}
+                />
                 <button type="submit">Run</button>
             </form>
-            {output && <div><strong>Output:</strong> <pre>{output}</pre></div>}
-            {error && <div><strong>Error:</strong> <pre>{error}</pre></div>}
+            <div className="output-container">
+                OUTPUT:
+                {output && (
+                        <pre>{output}</pre>
+                )}
+                {error && (
+                        <pre>{error}</pre>
+                )}
+            </div>
         </div>
     );
 }
