@@ -8,7 +8,7 @@ const app = express();
 dotenv.config();
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const buildPath = path.join(__dirname, '/myDE/client/build');
+const buildPath = path.join(__dirname, 'client/build');
 
 const corsOptions = {
     origin: process.env.APP_URL || 'http://localhost:3000',
